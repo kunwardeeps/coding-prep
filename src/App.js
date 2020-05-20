@@ -1,21 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import readXlsxFile from 'read-excel-file';
+import XLSX from 'xlsx';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-    readXlsxFile('./data/Leetcode_Approach.xlsx').then((rows) => {
-      console.log(JSON.stringify(rows));
-      // `rows` is an array of rows
-      // each row being an array of cells.
-    })
+    this.state = {};
+  }
+
+  componentDidMount() {
+    const url = "https://raw.githubusercontent.com/kunwardeeps/coding-prep/master/Leetcode_Approach.xlsx";
+    fetch(url).then(function(res) {
+      /* get the data as a Blob */
+      if(!res.ok) throw new Error("fetch failed");
+      return res.arrayBuffer();
+    }).then(ab => {
+      /* parse the data when it is received */
+      var data = new Uint8Array(ab);
+      var workbook = XLSX.read(data, {type:"array"});
+      console.log(workbook);
+      this.setState(workbook.Sheets);
+    });
   }
 
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return (
+      <div>
+        <h1>Hello, KD</h1>
+        <p>{JSON.stringify(this.state)}</p>
+      </div>
+    );
   }
 }
 
