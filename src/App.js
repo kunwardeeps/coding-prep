@@ -118,10 +118,10 @@ export default function App() {
       </main>
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
-          Footer
+          Coding Prep
         </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+          Thanks for visiting!
         </Typography>
       </footer>
     </React.Fragment>
