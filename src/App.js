@@ -4,11 +4,11 @@ import AppBar from '@material-ui/core/AppBar';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import ReactLoading from 'react-loading';
+import GitHubForkRibbon from 'react-github-fork-ribbon'; 
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -45,7 +45,7 @@ export default function App() {
       /* parse the data when it is received */
       var data = new Uint8Array(ab);
       var workbook = XLSX.read(data, {type:"array"});
-      console.log(workbook);
+      //console.log(workbook.Sheets.Algos);
       setRows(workbook.Sheets.Algos);
       setIsLoading(false);
     });
@@ -72,16 +72,20 @@ export default function App() {
               <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
                 Approach
               </Typography>
-              <Typography variant="body1" align="left" color="textPrimary" gutterBottom>
-                {data['D' + i].v}
-              </Typography>
+              {data['D' + i].v.split('\n').map(function(item, key) {
+                return (
+                  <Typography key={key} variant="body2" align="left" color="textPrimary" gutterBottom>
+                    {item}
+                  </Typography>
+                )
+              })}
             </div>}
             {data['E' + i] && 
             <div className="code">
               <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
                 Code
               </Typography>
-              <SyntaxHighlighter language="java" style={docco} wrapLines>
+              <SyntaxHighlighter language="java" style={docco} wrapLines={true}>
                 {data['E' + i].v}
               </SyntaxHighlighter>
             </div>}
@@ -89,7 +93,6 @@ export default function App() {
           </Container>
         );
     }
-    console.log(rows.length);
     _setRows(rows);
   };  
   
@@ -98,7 +101,12 @@ export default function App() {
     <React.Fragment>
       <CssBaseline />
       <AppBar position="relative">
-        <Toolbar/>
+        <GitHubForkRibbon position="right" 
+                          color="green"
+                          href="//github.com/kunwardeeps/coding-prep" 
+                          target="_blank" > 
+          Fork me on GitHub 
+        </GitHubForkRibbon> 
       </AppBar>
       <main>
         <div className={classes.heroContent}>
