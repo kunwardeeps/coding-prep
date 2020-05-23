@@ -81,14 +81,9 @@ export default function App() {
               })}
             </div>}
             {data['E' + i] && 
-            <div className="code">
-              <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
-                Code
-              </Typography>
-              <SyntaxHighlighter language="java" style={docco} wrapLines={true}>
-                {data['E' + i].v}
-              </SyntaxHighlighter>
-            </div>}
+            <SyntaxHighlighter language="java" style={docco} wrapLines={true}>
+              {data['E' + i].v}
+            </SyntaxHighlighter>}
             <span>&nbsp;&nbsp;</span>
           </Container>
         );
