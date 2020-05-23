@@ -4,7 +4,6 @@ import AppBar from '@material-ui/core/AppBar';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -32,36 +31,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
-  heroButtons: {
-    marginTop: theme.spacing(4),
-  },
-  cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
-  },
-  card: {
-    height: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  cardMedia: {
-    paddingTop: '56.25%', // 16:9
-  },
-  cardContent: {
-    flexGrow: 1,
-  },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
 }));
-
-const columns = ['A', 'B', 'C', 'D', 'E'];
   
 export default function App() {
   const classes = useStyles();
 
-  const [ data, setData ] = useState({});
+  const [ rows, _setRows ] = useState([]);
 
   const [ isLoading, setIsLoading ] = useState(true);
 
@@ -75,11 +54,53 @@ export default function App() {
       /* parse the data when it is received */
       var data = new Uint8Array(ab);
       var workbook = XLSX.read(data, {type:"array"});
-      console.log(workbook.Sheets.Algos);
-      setData(workbook.Sheets.Algos);
+      console.log(workbook);
+      setRows(workbook.Sheets.Algos);
       setIsLoading(false);
     });
   }, []);
+
+  const setRows = (data) => {
+    let rows = [];
+    for (let i = 2; data['A' + i]; i++) {
+        rows.push(
+          <Container maxWidth="lg">
+            <span>&nbsp;&nbsp;</span>
+            <Typography variant="h3" align="left" color="textPrimary" gutterBottom>
+              {data['A' + i].v}
+            </Typography>
+            {data['B' + i] && 
+            <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
+              <a href={data['B' + i].v}>Source</a>
+            </Typography>}
+            <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
+              Tags: {data['C' + i].v}
+            </Typography>
+            {data['D' + i] &&
+            <div className="approach">
+              <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
+                Approach
+              </Typography>
+              <Typography variant="body1" align="left" color="textPrimary" gutterBottom>
+                {data['D' + i].v}
+              </Typography>
+            </div>}
+            {data['E' + i] && 
+            <div className="code">
+              <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
+                Code
+              </Typography>
+              <SyntaxHighlighter language="java" style={docco} wrapLines>
+                {data['E' + i].v}
+              </SyntaxHighlighter>
+            </div>}
+            <span>&nbsp;&nbsp;</span>
+          </Container>
+        );
+    }
+    console.log(rows.length);
+    _setRows(rows);
+  };  
   
   return (
     isLoading? <div>Loading</div> :
@@ -90,45 +111,16 @@ export default function App() {
       </AppBar>
       <main>
         <div className={classes.heroContent}>
-          <Container maxWidth="sm">
+          <Container maxWidth="md">
             <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Coding Prep
+              Coding Interview Prep
             </Typography>
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               A compilation of frequently asked coding questions.
             </Typography>
           </Container>
-          <Container maxWidth="lg">
-            <Typography variant="h3" align="left" color="textPrimary" gutterBottom>
-              {data.A2.v}
-            </Typography>
-            {data.B2 && <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
-               <a href={data.B2.v}>Source</a>
-            </Typography>}
-            <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
-              Tags: {data.C2.v}
-            </Typography>
-            {data.D2 && 
-            <Typography variant="h5" align="left" color="textSecondary" gutterBottom>
-              Approach
-            </Typography> &&
-            <Typography variant="body1" align="left" color="textSecondary" gutterBottom>
-              {data.D2.v}
-            </Typography>}
-            <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
-              Code
-            </Typography>
-            {data.E2 && 
-            <SyntaxHighlighter language="java" style={docco}>
-              {data.E2.v}
-            </SyntaxHighlighter>}
-          </Container>
+          {rows.map((row, i) => <div key={i}>{row}</div>)}
         </div>
-        <Container className={classes.cardGrid} maxWidth="lg">
-          <Grid container spacing={4}>
-            
-          </Grid>
-        </Container>
       </main>
       <footer className={classes.footer}>
         <Typography variant="h6" align="center" gutterBottom>
