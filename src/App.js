@@ -7,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import ReactLoading from 'react-loading';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import GitHubForkRibbon from 'react-github-fork-ribbon'; 
 
 const useStyles = makeStyles((theme) => ({
@@ -88,11 +88,12 @@ export default function App() {
           </Container>
         );
     }
+    console.log(rows);
     _setRows(rows);
   };  
   
   return (
-    isLoading? <ReactLoading className={classes.loader} type='spin' height='20%' width='20%'/> :
+    isLoading? <CircularProgress className={classes.loader} size={200}/> :
     <React.Fragment>
       <CssBaseline />
       <AppBar position="relative">
