@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
 
+  const [ data, _setData ] = useState([]);
   const [ rows, _setRows ] = useState([]);
   const [ tag, setTag ] = React.useState('all');
   const [ isLoading, setIsLoading ] = useState(true);
@@ -53,54 +54,29 @@ export default function App() {
       return res.arrayBuffer();
     }).then(ab => {
       /* parse the data when it is received */
-      var data = new Uint8Array(ab);
-      var workbook = XLSX.read(data, {type:"array"});
+      const respArr = new Uint8Array(ab);
+      const workbook = XLSX.read(respArr, {type:"array"});
       //console.log(workbook.Sheets.Algos);
-      setRows(workbook.Sheets.Algos);
+      setData(workbook.Sheets.Algos);
       setIsLoading(false);
+      console.log(rows);
     });
   }, []);
 
-  const setRows = (data) => {
-    let rows = [];
-    for (let i = 2; data['A' + i]; i++) {
-        rows.push(
-          <Container maxWidth="lg">
-            <span>&nbsp;&nbsp;</span>
-            <Typography variant="h3" align="left" color="textPrimary" gutterBottom>
-              {data['A' + i].v}
-            </Typography>
-            {data['B' + i] && 
-            <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
-              <a href={data['B' + i].v}>Source</a>
-            </Typography>}
-            <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
-              Tags: {data['C' + i].v}
-            </Typography>
-            {data['D' + i] &&
-            <div className="approach">
-              <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
-                Approach
-              </Typography>
-              {data['D' + i].v.split('\n').map(function(item, key) {
-                return (
-                  <Typography key={key} variant="body2" align="left" color="textPrimary" gutterBottom>
-                    {item}
-                  </Typography>
-                )
-              })}
-            </div>}
-            {data['E' + i] && 
-            <SyntaxHighlighter language="java" style={docco} wrapLines={true}>
-              {data['E' + i].v}
-            </SyntaxHighlighter>}
-            <span>&nbsp;&nbsp;</span>
-          </Container>
-        );
+  const setData = (sheet) => {
+    let data = [];
+    for (let i = 2; sheet['A' + i]; i++) {
+      let entry = {};
+      entry['title'] = sheet['A' + i].v;
+      entry['source'] = sheet['B' + i] && sheet['B' + i].v;
+      entry['tags'] = sheet['C' + i] && sheet['C' + i].v.split(',');
+      entry['approach'] = sheet['D' + i] && sheet['D' + i].v;
+      entry['code'] = sheet['E' + i] && sheet['E' + i].v;
+      data.push(entry);
     }
-    console.log(rows);
-    _setRows(rows);
-  };  
+    _setData(data);
+    _setRows(data);
+  }
   
   return (
     isLoading? <CircularProgress className={classes.loader} size={200}/> :
@@ -154,7 +130,40 @@ export default function App() {
               </Select>
             </div>
           </Container>
-          {rows.map((row, i) => <div key={i}>{row}</div>)}
+          {rows.map((entry, i) => 
+          <div key={i}>
+            <Container maxWidth="lg">
+              <span>&nbsp;&nbsp;</span>
+              <Typography variant="h3" align="left" color="textPrimary" gutterBottom>
+                {entry['title']}
+              </Typography>
+              {entry['source'] && 
+              <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
+                <a href={entry['source']}>Source</a>
+              </Typography>}
+              <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
+                Tags: {JSON.stringify(entry['tags'])}
+              </Typography>
+              {entry['approach'] &&
+              <div className="approach">
+                <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
+                  Approach
+                </Typography>
+                {entry['approach'].split('\n').map(function(item, key) {
+                  return (
+                    <Typography key={key} variant="body2" align="left" color="textPrimary" gutterBottom>
+                      {item}
+                    </Typography>
+                  )
+                })}
+              </div>}
+              {entry['code'] && 
+              <SyntaxHighlighter language="java" style={docco} wrapLines={true}>
+                {entry['code']}
+              </SyntaxHighlighter>}
+              <span>&nbsp;&nbsp;</span>
+            </Container>
+          </div>)}
         </div>
       </main>
       <footer className={classes.footer}>
