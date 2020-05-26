@@ -9,6 +9,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import GitHubForkRibbon from 'react-github-fork-ribbon'; 
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -32,8 +34,16 @@ export default function App() {
   const classes = useStyles();
 
   const [ rows, _setRows ] = useState([]);
-
+  const [ tag, setTag ] = React.useState('all');
   const [ isLoading, setIsLoading ] = useState(true);
+
+  const handleChange = (event) => {
+    setTag(event.target.value);
+    console.log(event.target.value);
+    // _setRows(rows.filter(row => {
+    //   return row.props.children[3].props.children[1].split(',').includes(event.target.value);
+    // }));
+  };
 
   useEffect(() => {
     const url = "https://raw.githubusercontent.com/kunwardeeps/coding-prep/master/Leetcode_Approach.xlsx";
@@ -113,6 +123,36 @@ export default function App() {
             <Typography variant="h5" align="center" color="textSecondary" paragraph>
               A compilation of frequently asked coding questions.
             </Typography>
+            <div align="center">
+              <Select
+                labelId="select-tag-label"
+                id="select-tag"
+                value={tag}
+                autoWidth={true}
+                onChange={handleChange}> 
+                <MenuItem value={'all'}>All</MenuItem>
+                <MenuItem value={'arrays'}>Arrays</MenuItem>
+                <MenuItem value={'backtracking'}>Backtracking</MenuItem>
+                <MenuItem value={'bfs'}>BFS</MenuItem>
+                <MenuItem value={'binary_search'}>Binary Search</MenuItem>
+                <MenuItem value={'bit_manipulation'}>Bit Manipulation</MenuItem>
+                <MenuItem value={'dfs'}>DFS</MenuItem>
+                <MenuItem value={'dp'}>Dynamic Programming</MenuItem>
+                <MenuItem value={'graph'}>Graph</MenuItem>
+                <MenuItem value={'greedy'}>Greedy</MenuItem>
+                <MenuItem value={'heap'}>Heap</MenuItem>
+                <MenuItem value={'intervals'}>Intervals</MenuItem>
+                <MenuItem value={'linked_list'}>Linked List</MenuItem>
+                <MenuItem value={'search'}>Search</MenuItem>
+                <MenuItem value={'sliding_window'}>Sliding Window</MenuItem>
+                <MenuItem value={'sort'}>Sort</MenuItem>
+                <MenuItem value={'string'}>String</MenuItem>
+                <MenuItem value={'topological_sort'}>Topological Sort</MenuItem>
+                <MenuItem value={'trie'}>Trie</MenuItem>
+                <MenuItem value={'two_pointers'}>Two Pointers</MenuItem>
+                <MenuItem value={'union_find'}>Union Find</MenuItem>
+              </Select>
+            </div>
           </Container>
           {rows.map((row, i) => <div key={i}>{row}</div>)}
         </div>
