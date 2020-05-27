@@ -45,16 +45,16 @@ export default function App() {
   const [ isLoading, setIsLoading ] = useState(true);
 
   const handleChange = (event) => {
-    setTag(event.target.value);
-    if (event.target.value === 'all') {
-      _setRows(data);
-    } else {
-      _setRows(data.filter(entry => entry['tags'].includes(event.target.value)));
-    }
+    updateRows(event.target.value);
   };
 
-  const onTagClick = (event) => {
-    console.log(event);
+  const updateRows = (tag) => {
+    setTag(tag);
+    if (tag === 'all') {
+      _setRows(data);
+    } else {
+      _setRows(data.filter(entry => entry['tags'].includes(tag)));
+    }
   };
 
   useEffect(() => {
@@ -86,7 +86,9 @@ export default function App() {
   }
 
   const getTagLinks = (tags) => {
-    return tags.map(tag => <Link onClick={onTagClick(tag)} href='#'>{tag}</Link>);
+    return tags.map((tag, i) => 
+      <Link key={i} onClick={() => updateRows(tag)} href='#'>{tag}
+      </Link>);
   }
   
   return (
