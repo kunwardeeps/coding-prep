@@ -11,6 +11,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import GitHubForkRibbon from 'react-github-fork-ribbon'; 
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Link from '@material-ui/core/Link';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -27,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
   loader: {
     position: 'absolute', left: '50%', top: '40%',
     transform: 'translate(-50%, -50%)',
+  },
+  tags: {
+    '& > * + *': {
+      marginLeft: theme.spacing(1),
+    },
   }
 }));
   
@@ -35,31 +41,32 @@ export default function App() {
 
   const [ data, _setData ] = useState([]);
   const [ rows, _setRows ] = useState([]);
-  const [ tag, setTag ] = React.useState('all');
+  const [ tag, setTag ] = useState('all');
   const [ isLoading, setIsLoading ] = useState(true);
 
   const handleChange = (event) => {
     setTag(event.target.value);
-    console.log(event.target.value);
-    // _setRows(rows.filter(row => {
-    //   return row.props.children[3].props.children[1].split(',').includes(event.target.value);
-    // }));
+    if (event.target.value === 'all') {
+      _setRows(data);
+    } else {
+      _setRows(data.filter(entry => entry['tags'].includes(event.target.value)));
+    }
+  };
+
+  const onTagClick = (event) => {
+    console.log(event);
   };
 
   useEffect(() => {
     const url = "https://raw.githubusercontent.com/kunwardeeps/coding-prep/master/Leetcode_Approach.xlsx";
     fetch(url).then(function(res) {
-      /* get the data as a Blob */
       if(!res.ok) throw new Error("fetch failed");
       return res.arrayBuffer();
     }).then(ab => {
-      /* parse the data when it is received */
       const respArr = new Uint8Array(ab);
       const workbook = XLSX.read(respArr, {type:"array"});
-      //console.log(workbook.Sheets.Algos);
       setData(workbook.Sheets.Algos);
       setIsLoading(false);
-      console.log(rows);
     });
   }, []);
 
@@ -69,13 +76,17 @@ export default function App() {
       let entry = {};
       entry['title'] = sheet['A' + i].v;
       entry['source'] = sheet['B' + i] && sheet['B' + i].v;
-      entry['tags'] = sheet['C' + i] && sheet['C' + i].v.split(',');
+      entry['tags'] = sheet['C' + i] && sheet['C' + i].v.replace(/\s+/g, '').split(',');
       entry['approach'] = sheet['D' + i] && sheet['D' + i].v;
       entry['code'] = sheet['E' + i] && sheet['E' + i].v;
       data.push(entry);
     }
     _setData(data);
     _setRows(data);
+  }
+
+  const getTagLinks = (tags) => {
+    return tags.map(tag => <Link onClick={onTagClick(tag)} href='#'>{tag}</Link>);
   }
   
   return (
@@ -139,10 +150,13 @@ export default function App() {
               </Typography>
               {entry['source'] && 
               <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
-                <a href={entry['source']}>Source</a>
+                <Link href={entry['source']}>Source</Link>
               </Typography>}
               <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
-                Tags: {JSON.stringify(entry['tags'])}
+                <span>Tags: </span>
+                <span className={classes.tags}>
+                  {getTagLinks(entry['tags'])}
+                </span>
               </Typography>
               {entry['approach'] &&
               <div className="approach">
