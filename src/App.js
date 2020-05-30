@@ -26,8 +26,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(6),
   },
   loader: {
-    position: 'absolute', left: '50%', top: '40%',
-    transform: 'translate(-50%, -50%)',
+    position: 'absolute', left: '50%', top: '50%',
+    transform: 'translate(-50%, -50%)'
   },
   tags: {
     '& > * + *': {
@@ -92,7 +92,10 @@ export default function App() {
   }
   
   return (
-    isLoading? <CircularProgress className={classes.loader} size={200}/> :
+    isLoading? 
+    <div className={classes.loader}>
+      <CircularProgress  size={200} disableShrink/>
+    </div> :
     <React.Fragment>
       <CssBaseline />
       <AppBar position="relative">
