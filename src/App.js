@@ -165,13 +165,9 @@ export default function App() {
                 <Typography variant="h5" align="left" color="textPrimary" gutterBottom>
                   Approach
                 </Typography>
-                {entry['approach'].split('\n').map(function(item, key) {
-                  return (
-                    <Typography key={key} variant="body2" align="left" color="textPrimary" gutterBottom>
-                      {item}
-                    </Typography>
-                  )
-                })}
+                <Typography style={{ whiteSpace: 'pre-wrap' }} variant="body2" align="left" color="textPrimary" gutterBottom>
+                  {entry['approach']}
+                </Typography>
               </div>}
               {entry['code'] && 
               <SyntaxHighlighter language="java" style={docco} wrapLines={true}>
