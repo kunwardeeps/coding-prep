@@ -151,12 +151,9 @@ export default function App() {
             <Container maxWidth="lg">
               <span>&nbsp;&nbsp;</span>
               <Typography variant="h3" align="left" color="textPrimary" gutterBottom>
-                {entry['title']}
+                {entry['source'] ? <Link target={'_blank'} color={'inherit'} href={entry['source']}>{entry['title']}</Link> :
+                entry['title']}
               </Typography>
-              {entry['source'] && 
-              <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
-                <Link href={entry['source']}>Source</Link>
-              </Typography>}
               <Typography variant="subtitle1" align="left" color="textSecondary" paragraph>
                 <span>Tags: </span>
                 <span className={classes.tags}>
