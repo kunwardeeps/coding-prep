@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Body({ tag, updateRows, rows }) {
+export function Body({ tag, setTag, rows }) {
   const classes = useStyles();
   return (
     <main>
@@ -40,7 +40,7 @@ export function Body({ tag, updateRows, rows }) {
           </Typography>
           <MenuItems
             tag={tag}
-            handleChange={(event) => updateRows(event.target.value)}
+            handleChange={(event) => setTag(event.target.value)}
           />
         </Container>
         {rows.map((entry, i) => (
@@ -65,7 +65,7 @@ export function Body({ tag, updateRows, rows }) {
                   entry['title']
                 )}
               </Typography>
-              <Tags updateRows={updateRows} entry={entry} />
+              <Tags updateRows={setTag} entry={entry} />
               {entry['approach'] && (
                 <div className="approach">
                   <Typography

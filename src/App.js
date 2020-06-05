@@ -26,18 +26,13 @@ export default function App() {
   const [tag, setTag] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
 
-  const handleChange = (event) => {
-    updateRows(event.target.value);
-  };
-
-  const updateRows = (tag) => {
-    setTag(tag);
+  useEffect(() => {
     if (tag === 'all') {
       setRows(data);
     } else {
       setRows(data.filter((entry) => entry['tags'].includes(tag)));
     }
-  };
+  }, [tag, data]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,14 +54,13 @@ export default function App() {
   const updateDataFromSheet = (sheet) => {
     let data = [];
     for (let i = 2; sheet['A' + i]; i++) {
-      let entry = {};
-      entry['title'] = sheet['A' + i].v;
-      entry['source'] = sheet['B' + i] && sheet['B' + i].v;
-      entry['tags'] =
-        sheet['C' + i] && sheet['C' + i].v.replace(/\s+/g, '').split(',');
-      entry['approach'] = sheet['D' + i] && sheet['D' + i].v;
-      entry['code'] = sheet['E' + i] && sheet['E' + i].v;
-      data.push(entry);
+      data.push({
+        title: sheet['A' + i].v,
+        source: sheet['B' + i]?.v,
+        tags: sheet['C' + i]?.v.replace(/\s+/g, '').split(','),
+        approach: sheet['D' + i]?.v,
+        code: sheet['E' + i]?.v,
+      });
     }
     setData(data);
     setRows(data);
@@ -89,7 +83,7 @@ export default function App() {
           Fork me on GitHub
         </GitHubForkRibbon>
       </AppBar>
-      <Body tag={tag} updateRows={updateRows} rows={rows} />
+      <Body tag={tag} setTag={setTag} rows={rows} />
       <Footer />
     </>
   );
