@@ -1,7 +1,7 @@
 import React from 'react';
-import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
+import Chip from '@material-ui/core/Chip';
 
 const useStyles = makeStyles((theme) => ({
   tags: {
@@ -14,9 +14,7 @@ const useStyles = makeStyles((theme) => ({
 export function Tags({ updateRows, tags }) {
   const classes = useStyles();
   const tagLinks = tags.map((tag, i) => (
-    <Link key={i} onClick={() => updateRows(tag)} href="#">
-      {tag}
-    </Link>
+    <Chip key={i} onClick={() => updateRows(tag)} href="#" label={tag} />
   ));
 
   return (
