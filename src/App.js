@@ -2,7 +2,7 @@ import { Body } from './Body';
 import React, { useState, useEffect } from 'react';
 import XLSX from 'xlsx';
 import AppBar from '@material-ui/core/AppBar';
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -10,13 +10,6 @@ import Footer from './Footer';
 import GitHubForkRibbon from 'react-github-fork-ribbon';
 
 const useStyles = makeStyles((theme) => ({
-  icon: {
-    marginRight: theme.spacing(2),
-  },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
-  },
   loader: {
     position: 'absolute',
     left: '50%',
@@ -28,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
 export default function App() {
   const classes = useStyles();
 
-  const [data, _setData] = useState([]);
-  const [rows, _setRows] = useState([]);
+  const [data, setData] = useState([]);
+  const [rows, setRows] = useState([]);
   const [tag, setTag] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
 
@@ -40,9 +33,9 @@ export default function App() {
   const updateRows = (tag) => {
     setTag(tag);
     if (tag === 'all') {
-      _setRows(data);
+      setRows(data);
     } else {
-      _setRows(data.filter((entry) => entry['tags'].includes(tag)));
+      setRows(data.filter((entry) => entry['tags'].includes(tag)));
     }
   };
 
@@ -56,14 +49,14 @@ export default function App() {
 
       const respArr = new Uint8Array(ab);
       const workbook = XLSX.read(respArr, { type: 'array' });
-      setData(workbook.Sheets.Algos);
+      updateDataFromSheet(workbook.Sheets.Algos);
       setIsLoading(false);
     };
 
     fetchData();
   }, []);
 
-  const setData = (sheet) => {
+  const updateDataFromSheet = (sheet) => {
     let data = [];
     for (let i = 2; sheet['A' + i]; i++) {
       let entry = {};
@@ -75,8 +68,8 @@ export default function App() {
       entry['code'] = sheet['E' + i] && sheet['E' + i].v;
       data.push(entry);
     }
-    _setData(data);
-    _setRows(data);
+    setData(data);
+    setRows(data);
   };
 
   return isLoading ? (
@@ -96,13 +89,7 @@ export default function App() {
           Fork me on GitHub
         </GitHubForkRibbon>
       </AppBar>
-      <Body
-        tag={tag}
-        handleChange={handleChange}
-        updateRows={updateRows}
-        docco={docco}
-        rows={rows}
-      />
+      <Body tag={tag} updateRows={updateRows} rows={rows} />
       <Footer />
     </>
   );

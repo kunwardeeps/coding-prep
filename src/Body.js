@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { MenuItems } from './MenuItems';
 import { Tags } from './Tags';
+import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 
 const useStyles = makeStyles((theme) => ({
   heroContent: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Body({ tag, handleChange, updateRows, docco, rows }) {
+export function Body({ tag, updateRows, rows }) {
   const classes = useStyles();
   return (
     <main>
@@ -37,7 +38,10 @@ export function Body({ tag, handleChange, updateRows, docco, rows }) {
           >
             A compilation of frequently asked coding questions.
           </Typography>
-          <MenuItems tag={tag} handleChange={handleChange} />
+          <MenuItems
+            tag={tag}
+            handleChange={(event) => updateRows(event.target.value)}
+          />
         </Container>
         {rows.map((entry, i) => (
           <div key={i}>
