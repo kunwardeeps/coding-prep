@@ -13,13 +13,13 @@ const useStyles = makeStyles((theme) => ({
 
 export function Tags({ updateRows, entry }) {
   const classes = useStyles();
-  const getTagLinks = (tags) => {
-    return tags.map((tag, i) => (
+  const getTagLinks = (tags) =>
+    tags.map((tag, i) => (
       <Link key={i} onClick={() => updateRows(tag)} href="#">
         {tag}
       </Link>
     ));
-  };
+
   return (
     <Typography
       variant="subtitle1"
