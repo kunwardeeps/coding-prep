@@ -10,16 +10,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Body({ tag, setTag, rows }) {
+export function Body({ tag, setTag, problems }) {
   const classes = useStyles();
-  const problems = rows.map((problem, i) => (
-    <Problem setTag={setTag} problem={problem} key={i} />
-  ));
   return (
     <main>
       <div className={classes.mainContent}>
         <Heading tag={tag} setTag={setTag} />
-        {problems}
+        {problems.map((problem, i) => (
+          <Problem setTag={setTag} problem={problem} key={i} />
+        ))}
       </div>
     </main>
   );

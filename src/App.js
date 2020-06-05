@@ -8,7 +8,7 @@ import { Loading } from './Loading';
 import useData from './useData';
 
 export default function App() {
-  const [tag, rows, isLoading, setTag] = useData();
+  const [tag, problems, isLoading, setTag] = useData();
 
   return isLoading ? (
     <Loading />
@@ -16,7 +16,7 @@ export default function App() {
     <>
       <CssBaseline />
       <GithubRibbon />
-      <Body tag={tag} setTag={setTag} rows={rows} />
+      <Body tag={tag} setTag={setTag} problems={problems} />
       <Footer />
     </>
   );

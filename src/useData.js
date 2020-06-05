@@ -3,17 +3,11 @@ import fetchData from './api';
 
 const useData = () => {
   const [data, setData] = useState([]);
-  const [rows, setRows] = useState([]);
   const [tag, setTag] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (tag === 'all') {
-      setRows(data);
-    } else {
-      setRows(data.filter((entry) => entry['tags'].includes(tag)));
-    }
-  }, [tag, data]);
+  const problems =
+    tag === 'all' ? data : data.filter((entry) => entry['tags'].includes(tag));
 
   useEffect(() => {
     (async function () {
@@ -37,7 +31,7 @@ const useData = () => {
     setData(data);
   };
 
-  return [tag, rows, isLoading, setTag];
+  return [tag, problems, isLoading, setTag];
 };
 
 export default useData;
