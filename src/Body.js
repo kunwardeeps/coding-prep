@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Problem } from './Problem';
 
 const useStyles = makeStyles((theme) => ({
-  heroContent: {
+  mainContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6),
   },
@@ -12,13 +12,14 @@ const useStyles = makeStyles((theme) => ({
 
 export function Body({ tag, setTag, rows }) {
   const classes = useStyles();
+  const problems = rows.map((problem, i) => (
+    <Problem setTag={setTag} problem={problem} key={i} />
+  ));
   return (
     <main>
-      <div className={classes.heroContent}>
+      <div className={classes.mainContent}>
         <Heading tag={tag} setTag={setTag} />
-        {rows.map((problem, i) => (
-          <Problem setTag={setTag} problem={problem} key={i} />
-        ))}
+        {problems}
       </div>
     </main>
   );

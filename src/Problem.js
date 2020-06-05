@@ -9,17 +9,17 @@ import SyntaxHighlighter from 'react-syntax-highlighter';
 export function Problem({ problem, setTag }) {
   return (
     <Container maxWidth="lg">
-      <span>&nbsp;&nbsp;</span>
-      <ProblemTitle title={problem['title']} source={problem['source']} />
+      <br />
+      <Title title={problem['title']} source={problem['source']} />
       <Tags updateRows={setTag} tags={problem['tags']} />
-      <ProblemApproach approach={problem['approach']} />
-      <ProblemCode docco={docco} code={problem['code']} />
-      <span>&nbsp;&nbsp;</span>
+      <Approach approach={problem['approach']} />
+      <Code docco={docco} code={problem['code']} />
+      <br />
     </Container>
   );
 }
 
-function ProblemTitle({ title, source }) {
+function Title({ title, source }) {
   return (
     <Typography variant="h3" align="left" color="textPrimary" gutterBottom>
       {source ? (
@@ -33,7 +33,7 @@ function ProblemTitle({ title, source }) {
   );
 }
 
-function ProblemApproach({ approach }) {
+function Approach({ approach }) {
   if (!approach) return null;
   return (
     <div className="approach">
@@ -55,7 +55,7 @@ function ProblemApproach({ approach }) {
   );
 }
 
-function ProblemCode({ code }) {
+function Code({ code }) {
   if (!code) return null;
   return (
     <SyntaxHighlighter language="java" style={docco} wrapLines={true}>
