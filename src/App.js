@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { MenuItems } from './MenuItems';
+import Footer from './Footer';
 import GitHubForkRibbon from 'react-github-fork-ribbon';
 
 import Link from '@material-ui/core/Link';
@@ -149,14 +150,7 @@ export default function App() {
           </div>)}
         </div>
       </main>
-      <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Coding Prep
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Thanks for visiting!
-        </Typography>
-      </footer>
+      <Footer />
     </React.Fragment>
   );
 }
