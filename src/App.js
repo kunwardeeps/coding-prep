@@ -2,25 +2,12 @@ import { Body } from './Body';
 import React, { useState, useEffect } from 'react';
 import XLSX from 'xlsx';
 import AppBar from '@material-ui/core/AppBar';
-
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Footer from './Footer';
 import GitHubForkRibbon from 'react-github-fork-ribbon';
-
-const useStyles = makeStyles((theme) => ({
-  loader: {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-  },
-}));
+import { Loading } from './Loading';
 
 export default function App() {
-  const classes = useStyles();
-
   const [data, setData] = useState([]);
   const [rows, setRows] = useState([]);
   const [tag, setTag] = useState('all');
@@ -67,24 +54,28 @@ export default function App() {
   };
 
   return isLoading ? (
-    <div className={classes.loader}>
-      <CircularProgress size={200} disableShrink />
-    </div>
+    <Loading />
   ) : (
     <>
       <CssBaseline />
-      <AppBar position="relative">
-        <GitHubForkRibbon
-          position="right"
-          color="green"
-          href="//github.com/kunwardeeps/coding-prep"
-          target="_blank"
-        >
-          Fork me on GitHub
-        </GitHubForkRibbon>
-      </AppBar>
+      <GithubRibbon />
       <Body tag={tag} setTag={setTag} rows={rows} />
       <Footer />
     </>
+  );
+}
+
+function GithubRibbon() {
+  return (
+    <AppBar position="relative">
+      <GitHubForkRibbon
+        position="right"
+        color="green"
+        href="//github.com/kunwardeeps/coding-prep"
+        target="_blank"
+      >
+        Fork me on GitHub
+      </GitHubForkRibbon>
+    </AppBar>
   );
 }

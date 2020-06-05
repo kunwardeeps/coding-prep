@@ -13,12 +13,11 @@ const useStyles = makeStyles((theme) => ({
 
 export function Tags({ updateRows, entry }) {
   const classes = useStyles();
-  const getTagLinks = (tags) =>
-    tags.map((tag, i) => (
-      <Link key={i} onClick={() => updateRows(tag)} href="#">
-        {tag}
-      </Link>
-    ));
+  const tagLinks = entry['tags'].map((tag, i) => (
+    <Link key={i} onClick={() => updateRows(tag)} href="#">
+      {tag}
+    </Link>
+  ));
 
   return (
     <Typography
@@ -28,7 +27,7 @@ export function Tags({ updateRows, entry }) {
       paragraph
     >
       <span>Tags: </span>
-      <span className={classes.tags}>{getTagLinks(entry['tags'])}</span>
+      <span className={classes.tags}>{tagLinks}</span>
     </Typography>
   );
 }
