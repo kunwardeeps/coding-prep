@@ -11,9 +11,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export function Tags({ updateRows, entry }) {
+export function Tags({ updateRows, tags }) {
   const classes = useStyles();
-  const tagLinks = entry['tags'].map((tag, i) => (
+  const tagLinks = tags.map((tag, i) => (
     <Link key={i} onClick={() => updateRows(tag)} href="#">
       {tag}
     </Link>

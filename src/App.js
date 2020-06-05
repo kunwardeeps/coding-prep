@@ -31,13 +31,13 @@ export default function App() {
 
   const updateDataFromSheet = (sheet) => {
     let data = [];
-    for (let i = 2; sheet['A' + i]; i++) {
+    for (let i = 2; sheet[`A${i}`]; i++) {
       data.push({
-        title: sheet['A' + i].v,
-        source: sheet['B' + i]?.v,
-        tags: sheet['C' + i]?.v.replace(/\s+/g, '').split(','),
-        approach: sheet['D' + i]?.v,
-        code: sheet['E' + i]?.v,
+        title: sheet[`A${i}`].v,
+        source: sheet[`B${i}`]?.v,
+        tags: sheet[`C${i}`]?.v.replace(/\s+/g, '').split(','),
+        approach: sheet[`D${i}`]?.v,
+        code: sheet[`E${i}`]?.v,
       });
     }
     setData(data);
