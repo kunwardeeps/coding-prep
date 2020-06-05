@@ -1,11 +1,11 @@
 import { Body } from './Body';
 import React, { useState, useEffect } from 'react';
-import XLSX from 'xlsx';
 import AppBar from '@material-ui/core/AppBar';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Footer from './Footer';
 import GitHubForkRibbon from 'react-github-fork-ribbon';
 import { Loading } from './Loading';
+import fetchData from './api';
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -22,20 +22,11 @@ export default function App() {
   }, [tag, data]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const url =
-        'https://raw.githubusercontent.com/kunwardeeps/coding-prep/master/Leetcode_Approach.xlsx';
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('fetch failed');
-      const ab = await res.arrayBuffer();
-
-      const respArr = new Uint8Array(ab);
-      const workbook = XLSX.read(respArr, { type: 'array' });
-      updateDataFromSheet(workbook.Sheets.Algos);
+    (async function () {
+      const sheetData = await fetchData();
+      updateDataFromSheet(sheetData);
       setIsLoading(false);
-    };
-
-    fetchData();
+    })();
   }, []);
 
   const updateDataFromSheet = (sheet) => {
@@ -50,7 +41,6 @@ export default function App() {
       });
     }
     setData(data);
-    setRows(data);
   };
 
   return isLoading ? (
