@@ -1,12 +1,10 @@
 import XLSX from 'xlsx';
 
 const URL =
-  'https://docs.google.com/spreadsheets/d/e/2PACX-1vSIBV_awyyv6iQcTHXpKJ5QPC2MM4pvgSamylZLGBXnj76J9pGwdewXytUKo3D4FVsCAzfnE6V8heC2/pub?output=xlsx';
+  'https://cors-anywhere.herokuapp.com/https://docs.google.com/spreadsheets/d/e/2PACX-1vSIBV_awyyv6iQcTHXpKJ5QPC2MM4pvgSamylZLGBXnj76J9pGwdewXytUKo3D4FVsCAzfnE6V8heC2/pub?output=xlsx';
 
 const fetchData = async () => {
-  const res = await fetch(URL,{
-    mode: 'cors'
-  });
+  const res = await fetch(URL);
   if (!res.ok) throw new Error('fetch failed');
   const buffer = await res.arrayBuffer();
 
