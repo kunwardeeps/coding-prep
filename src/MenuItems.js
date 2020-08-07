@@ -21,6 +21,7 @@ export function MenuItems({ tag, handleChange }) {
     { value: 'sliding_window', label: 'Sliding Window' },
     { value: 'sort', label: 'Sort' },
     { value: 'string', label: 'String' },
+    { value: 'stack', label: 'Stack' },
     { value: 'topological_sort', label: 'Topological Sort' },
     { value: 'trie', label: 'Trie' },
     { value: 'two_pointers', label: 'Two Pointers' },
