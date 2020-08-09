@@ -17,7 +17,6 @@ export function MenuItems({ tag, handleChange }) {
     { value: 'heap', label: 'Heap' },
     { value: 'intervals', label: 'Intervals' },
     { value: 'linked_list', label: 'Linked List' },
-    { value: 'search', label: 'Search' },
     { value: 'sliding_window', label: 'Sliding Window' },
     { value: 'sort', label: 'Sort' },
     { value: 'string', label: 'String' },
