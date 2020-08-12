@@ -22,6 +22,7 @@ export function MenuItems({ tag, handleChange }) {
     { value: 'string', label: 'String' },
     { value: 'stack', label: 'Stack' },
     { value: 'topological_sort', label: 'Topological Sort' },
+    { value: 'tree', label: 'Tree' },
     { value: 'trie', label: 'Trie' },
     { value: 'two_pointers', label: 'Two Pointers' },
     { value: 'union_find', label: 'Union Find' },
