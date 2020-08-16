@@ -16,7 +16,7 @@ export function Heading({ tag, setTag }) {
         Coding Interview Prep
       </Typography>
       <Typography variant="h5" align="center" color="textSecondary" paragraph>
-        A compilation of frequently asked coding questions.
+        Preferred approach of problems organized by patterns
       </Typography>
       <MenuItems
         tag={tag}
