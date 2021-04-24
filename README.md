@@ -1,5 +1,5 @@
 ## About
-Do you tend to forget how did you solve a coding problem few months ago? Then this project can help you. It encourages an individual to document the thought process behind solving a coding problem in a published Google Sheet. The UI renders a clean readable format which categorizes the problems by their tags. It is recommended to keep revising your notes every week so that you don't have to start from scratch again next time you prepare for the interviews.</br>
+Use this project to create your own diary of your favorite coding problems. The problems are read from a public Google Sheet.</br>
 PRs and ideas are welcome!
 
 ## Working demo
